@@ -1,21 +1,39 @@
-/*  This method will trigger user permissions
-Html5Qrcode.getCameras().then(devices => {
-    console.log(devices);
-    if (devices && devices.length) {
-      let cameraId = devices[0].id;
-      console.log(cameraId);
-      
-      // .. use this to start scanning.
-        const html5Qrcode = new Html5Qrcode("reader");
+function isbnInTable(value){
+    const rows = document.querySelectorAll("tbody tr");
+    for (let row of rows){
+        console.log(row.cells[1].textContent)
+        if(row.cells[1].textContent === value){
+            
+            return true;
+        }
+    }
+    return false;
+}
+
+
+const html5Qrcode = new Html5Qrcode("reader");
         html5Qrcode.start(
-        cameraId,
+        { facingMode: "environment" },
         {
             fps:5,
-            qrbox: {width: 250, height:100 }
+            qrbox: {width: 210, height:100 }
         },
         (decodedText,decodedResult) =>{
             // when code is read
             console.log(decodedText, decodedResult);
+            if(!isbnInTable(decodedText)){
+            let element =  document.createElement('tr');
+            let Buch = document.createElement("td")
+            Buch.textContent= "ABCD";
+            let ISBN =document.createElement("td")
+            ISBN.textContent =decodedText;
+            let Preis =document.createElement("td")
+            Preis.textContent= "/";
+            element.appendChild(Buch);
+            element.appendChild(ISBN);
+            element.appendChild(Preis);
+            document.querySelector("tbody").appendChild(element);
+            }
         },
         (errorMessage) => {
             // error
@@ -24,18 +42,6 @@ Html5Qrcode.getCameras().then(devices => {
         .catch((err) => {
             // start error
         })
-    }
-  }).catch(err => {
-    console.log(err);
-  });*/
-
-const html5QrCode = new Html5Qrcode("reader");
-const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-    /* handle success */
-};
-const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-
 
 
 
