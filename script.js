@@ -1,4 +1,3 @@
-
 /*  This method will trigger user permissions
 Html5Qrcode.getCameras().then(devices => {
     console.log(devices);
